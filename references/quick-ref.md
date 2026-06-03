@@ -1,88 +1,95 @@
-# EPLAN API — Quick Reference Card
+# EPLAN Platform 2026 — 快速参考卡
 
-##   Key Interfaces (Must-Know)
-
-| Interface | Assembly | Purpose |
-|-----------|----------|---------|
-| **IEplAddIn** | Eplan.EplApi.AFu | Entry point: exactly 1 per DLL |
-| **IEplAction** | Eplan.EplApi.AFu | Register an action |
-| **IEplActionEnable** | Eplan.EplApi.AFu | Enable/disable action |
-| **IEplActionChecked** | Eplan.EplApi.AFu | Toggle action (0=off, 1=on, 2=indeterminate) |
-| **IEplRemoting** | Eplan.EplApi.Remotingu | Remoting communication |
-
-##   Script Attributes
-
-| Attribute | When it fires |
-|-----------|---------------|
-| `[Start]` | Script entry point |
-| `[DeclareAction]` | Register method as action |
-| `[DeclareEventHandler("EventName")]` | Subscribe to event |
-| `[DeclareRegister]` | Script loaded into P8 |
-| `[DeclareUnregister]` | Script removed from P8 |
-| `[DeclareMenu]` | Add context menu items |
-
-##   13 System Events Summary
-
-| Category | Events |
-|----------|--------|
-| App Lifecycle | `OnMainStart`, `OnMainEnd` |
-| Project Lifecycle | `OnPostOpenProject`, `OnUserPreCloseProject` |
-| UI | `OnLoadWorkspace`, `OnResetRibbon` |
-| Action Hooks | `onActionStart.String.*`, `onActionEnd.String.*` |
-| Editor | `Ged.Redraw`, `NCSettingsMachineTools.Redraw` |
-| Data Dirty | `Page.ConnectionDirty`, `Project.CablingDirty`, `RefreshPageFilter` |
-
-##   Layer Architecture
+##   平台三大页面结构
 
 ```
-Layer 5: Cloud       → IdentityClient (Authentification + Types)
-Layer 4: UI          → Guiu (ribbon buttons)
-Layer 3: Logic       → HEServicesu (backup/report/print/label)
-                        EServicesu (verification/GED)
-Layer 2: Data        → DataModelu (project/page/function/3D/graphics)
-                        MasterDatau (parts management)
-Layer 1: Foundation  → AFu (add-in framework/actions/events)
-                        Baseu (settings/coordinates/multilang/exceptions)
-Layer 0: Startup     → Starteru (offline apps)
-                        Systemu (cross-process EplApplication)
-                        Remotingu/RemoteClientu (inter-process communication)
+Eplan Platform 2026 Help
+├── Eplan 平台 (26 topics) — 用户操作指南
+├── Eplan 总览 — 模块/功能总览
+├── Eplan 新闻 — 版本更新/发行说明
+└── Eplan 易盼云 — Cloud 服务
 ```
 
-##   Common Task → Right Assembly
+##   快捷入口（主页 9 卡片）
 
-| Task | Assembly |
-|------|----------|
-| Create an EPLAN plugin DLL | Eplan.EplApi.AFu |
-| Write a C# script | Eplan.EplApi.AFu (Scripting) |
-| Access project/page data | Eplan.EplApi.DataModelu |
-| Place macros | Eplan.EplApi.DataModelu |
-| Generate reports | Eplan.EplApi.HEServicesu |
-| Export/import projects | Use Actions: `import`/`export` |
-| Add ribbon buttons | Eplan.EplApi.Guiu |
-| Query/modify settings | Eplan.EplApi.Baseu (Settings) |
-| Multi-language text | Eplan.EplApi.Baseu (MultiLangString) |
-| Unit conversion | Eplan.EplApi.Baseu (UnitParser) |
-| Offline application | Eplan.EplApi.Starteru + Systemu |
-| Remoting client | Eplan.EplApi.RemoteClientu |
-| 3D layout space | Eplan.EplApi.DataModelu (E3D namespace) |
-| Cable/terminal management | Eplan.EplApi.DataModelu (EObjects) |
-| License check | Eplan.EplApi.AFu (License) |
-| Permission check | Eplan.EplApi.AFu (UserRights) |
-| Cloud authentication | Eplan.IdentityClient.* |
-| PLC data exchange | Actions: `plcservice` + XML Converters |
-| Label printing | Actions: `label` + Label XML converter |
+| 卡片 | 链接目标 |
+|------|---------|
+| 项目 | 项目对话框/管理 |
+| 图形编辑器 | GED 使用指南 |
+| 插入中心 | 符号/设备/宏插入 |
+| 宏 | 宏管理 |
+| 连接 | 连接编辑 |
+| 报表 | 报表和标签生成 |
+| 许可证 | 许可证管理 |
+| 新闻 | 发行说明 |
+| 发行说明 | 版本更新 |
 
-##   Top 10 Most Common Actions
+##   26 大主题速查
 
-| # | Action | What it does |
-|---|--------|-------------|
-| 1 | `import` | Import projects/macros/drawings |
-| 2 | `export` | Export pages/projects (DXF/DWG/PDF) |
-| 3 | `print` | Print projects and pages |
-| 4 | `reports` | Update all project evaluations |
-| 5 | `check` | Run project check |
-| 6 | `backup` / `restore` | Backup/restore project + master data |
-| 7 | `generate` | Generate connections and cables |
-| 8 | `renumber` | Renumbering/DT assignment |
-| 9 | `translate` | Translation + missing words export |
-| 10 | `label` | Create labels |
+| # | 主题 | 关键子项 |
+|---|------|---------|
+| 1 | 阅读提示 | 文档约定、警告/注意/提示格式、命令路径语法 |
+| 2 | 使用帮助系统 | 帮助系统的导航、搜索、打印 |
+| 3 | Eplan 操作 | 用户界面、命令行、基本操作 |
+| 4 | 编辑和管理项目 ★ | 项目对话框(基础/内容/参考)、项目管理、项目结构、多用户、备份、审核 |
+| 5 | 管理页 ★ | 页导航器、创建/编辑页、页类型、页属性 |
+| 6 | 使用图形的编辑 ★ | GED 界面、缩放、图层、栅格、捕捉 |
+| 7 | 编辑原理图 ★ | 插入符号、设备、电缆、中断点、电位 |
+| 8 | 编辑连接 ★ | 自动连线、手动连线、连接符号、连接导航器 |
+| 9 | 编辑端子和插头 ★ | 端子排、插头定义、端子导航器 |
+| 10 | 编辑 PLC ★ | PLC 盒子、PLC 卡、PLC 数据交换 |
+| 11 | 用宏工作 ★ | 创建宏、插入宏、宏项目、窗口宏/页宏 |
+| 12 | 使用项目选项 | 选项组、选项变体、条件 |
+| 13 | 连接和设备的编号 | DT 编号规则、在线/离线编号、格式化 |
+| 14 | 功能和设备的使用 | 功能定义、设备选择、部件分配 |
+| 15 | 管理项目数据 | 同步、压缩、备份、导出/导入 |
+| 16 | 管理主数据 ★ | 符号库、图框、表格、部件数据库 |
+| 17 | 理解和管理消息 | 检查运行、消息类别、消息管理 |
+| 18 | 生成报表和输出标签 ★ | 报表类型、模板、导出、标签打印 |
+| 19 | 生成自动翻译 | 翻译词典、缺失词列表、自动翻译 |
+| 20 | 转换标准 | IEC ↔ NFPA ↔ GB 图纸标准切换 |
+| 21 | 项目操作自动化 | API 脚本、Action 调用、批处理 |
+| 22 | Eplan Pro Panel ★ | 3D 柜体设计、安装板布局、布线路径 |
+| 23 | Eplan Fluid ★ | 液压/气动原理图、流体符号 |
+| 24 | Eplan Fluid Hose Configurator | 软管配置器 |
+| 25 | Eplan Preplanning ★ | P&ID 预规划、工艺流程图 |
+| 26 | Eplan View | 项目查看/审阅 |
+
+##   常用命令路径 (Ribbon)
+
+| 操作 | 命令路径 |
+|------|---------|
+| 新建项目 | 项目 > 新建 |
+| 打开项目 | 项目 > 打开 |
+| 新建页 | 页 > 新建 |
+| 插入符号 | 插入 > 符号 |
+| 插入设备 | 插入 > 设备 |
+| 自动连线 | 连接 > 自动连线 |
+| 编号 | 项目数据 > 编号 |
+| 检查运行 | 项目数据 > 检查运行 |
+| 生成报表 | 报表 > 生成 |
+| 导出 PDF | 页 > 导出 > PDF |
+| 备份项目 | 项目 > 备份 |
+| 打印标签 | 报表 > 标签 |
+
+##   项目文件扩展名
+
+| 扩展名 | 说明 |
+|--------|------|
+| .zw9 | 项目文件 (2022+) |
+| .elk | 项目文件 (旧版) |
+| .ept | 基本项目模板 (旧版) |
+| .epb | 基本项目 (旧版) |
+| .ema | 宏文件 |
+| .ems | 宏项目文件 |
+
+##   EPLAN 典型错误排查
+
+| 症状 | 可能原因 | 解决 |
+|------|---------|------|
+| 设备编号重复 | DT 规则冲突 | 检查编号设置，重新编号 |
+| 连接缺失 | 未正确设置连接点 | 检查符号连接点定义 |
+| 报表为空 | 模板问题或数据未同步 | 先运行检查，再重新生成 |
+| 部件未找到 | 部件数据库未更新 | 同步部件数据库 |
+| 项目无法打开 | 多用户锁定或版本不兼容 | 检查许可，尝试只读模式 |
+| 激活无响应 | 许可证过期或 ELM 问题 | 打开许可证管理器检查 |
